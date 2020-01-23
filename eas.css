@@ -1,0 +1,18 @@
+/* Styles for the Etch-A-Sketch */
+
+.eas {
+    width: 512px;
+    height: 512px;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    overflow: hidden;
+}
+
+.eas-pixel {
+    background-color: #ebecb3;
+}
+
+.black {
+    background-color: black;
+}
