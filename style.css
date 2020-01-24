@@ -41,7 +41,6 @@ h1 {
     line-height: 0.8;
     margin: 0;
     padding-top: 15px;
-    color: var(--main-color);
 }
 
 h2 {
@@ -61,11 +60,26 @@ h3 {
 .pointer {
     cursor:pointer;
 }
-
+/* ---DRAW AREA IS HERE -- */
 .draw {
+    width: 512px;
+    height: 512px;
     border: 20px solid var(--main-color);
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    overflow: hidden;
 }
+
+.draw-pixel {
+    background-color: #ebecb3;
+}
+
+.black {
+    background-color: var(--base-color);
+}
+
 /* ---MAIN GRID IS HERE -- */
 .main {
     display: grid;
@@ -79,6 +93,8 @@ h3 {
     grid-column: 1 / 1;
     grid-row: 1 / span 4;
     padding: 10px;
+    text-align: center;
+    color: var(--main-color);
 }
 
 .sticky-top {

@@ -4,17 +4,28 @@
 
 // When the base color is changed, accent and main change in relation.
 // Window should maintain similar vibe no matter the base color.
-let baseColor = [15,113,115];
+let baseColor = [15,113,115]; // original base is [15,113,115] if your playing with this...
 let accentColor = solveAccentColor(baseColor);
 let mainColor = solveMainColor(baseColor);
 
-console.log(accentColor);
-console.log(mainColor);
+const colorPicker = document.querySelector("#color-picker");
+colorPicker.addEventListener('change', setBaseColor);
+colorPicker.addEventListener('change', applyColors);
 
-applyColors();
+function setBaseColor() {
+    baseColor = hexColorToRGB(this.value);
+    accentColor = solveAccentColor(baseColor)
+    mainColor = solveMainColor(baseColor);
+}
+
+function hexColorToRGB(hex) { //takes hex color (i.e. #efefef) and converts to rgb
+    hex = hex.slice(1,hex.length);
+    const rgb = [parseInt(Number("0x"+hex.slice(0,2)),10), parseInt(Number("0x"+hex.slice(02,4)),10), parseInt(Number("0x"+hex.slice(4,6)),10)];
+    return rgb;
+}
 
 function solveAccentColor(base){
-    let rgb = [base[0]+223,base[1]+217,base[2]+246];
+    let rgb = [base[0]+15,base[1]+123,base[2]+246]; // original [base[0]+223,base[1]+217,base[2]+246]
     for (i=0;i<rgb.length;i++){
         if (rgb[i] > 255){
             rgb[i] = rgb[i]-255;
@@ -24,7 +35,7 @@ function solveAccentColor(base){
 }
 
 function solveMainColor(base){
-    let rgb = [base[0]+224,base[1]+18,base[2]+224];
+    let rgb = [base[0]+123,base[1]+224,base[2]+15]; // original [base[0]+224,base[1]+18,base[2]+224]
     for (i=0;i<rgb.length;i++){
         if (rgb[i] > 255){
             rgb[i] = rgb[i]-255;
@@ -49,7 +60,7 @@ const drawHeight = 512;
 const drawWidth = drawHeight;
 
 // Size of each pixel the user draws
-const pixelHeight = 16;
+const pixelHeight = 32;
 const pixelWidth = pixelHeight;
 
 const gridHeight = drawHeight/pixelHeight;
