@@ -1,3 +1,9 @@
+:root {
+    --base-color: rgb(15, 113, 115);
+    --accent-color: rgb(238, 75, 106);
+    --main-color: rgb(239, 131, 84);
+}
+
 @font-face {
     font-family: 'VCR';
     src: url('res/vcr-webfont.woff2') format('woff2'),
@@ -6,19 +12,20 @@
     font-style: normal;
 }
 
+/* Stop the blur, this is pixel territory */
 * { 
     image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
     image-rendering: -moz-crisp-edges;          /* Firefox                        */
     image-rendering: -o-crisp-edges;            /* Opera                          */
     image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
-    image-rendering: pixelated; /* Chrome */
+    image-rendering: pixelated;                 /* Chrome */
     image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
     -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
 
 }
 
 html, body {
-    background-color: #0f7173;
+    background-color: var(--base-color);
     height: 100%;
     min-width: 100%
 }
@@ -34,7 +41,7 @@ h1 {
     line-height: 0.8;
     margin: 0;
     padding-top: 15px;
-    color: #ef8354;
+    color: var(--main-color);
 }
 
 h2 {
@@ -56,7 +63,7 @@ h3 {
 }
 
 .draw {
-    border: 20px solid #ef8354;
+    border: 20px solid var(--main-color);
     margin: 0 auto;
 }
 /* ---MAIN GRID IS HERE -- */
@@ -68,7 +75,7 @@ h3 {
 }
 /*grid item 1 */
 .left-menu {
-    background-color: #0f7173;
+    background-color: var(--base-color);
     grid-column: 1 / 1;
     grid-row: 1 / span 4;
     padding: 10px;
@@ -91,7 +98,7 @@ h3 {
 
 /*grid item 2 */
 .header {
-    background-color: #ee4b6a;
+    background-color: var(--accent-color);
     grid-column: 2 / span 3;
     grid-row: 1;
     overflow: hidden;
@@ -104,14 +111,14 @@ h3 {
     line-height: 0.8;
     margin: 0;
     white-space: nowrap;
-    color: #0f7173;
+    color: var(--base-color);
 }
 
 /*grid item 3 */
 .draw-container { 
     grid-column: 2;
     grid-row: 2 / span 4;
-    background-color: #ef8354;
+    background-color: var(--main-color);
 }
 
 .draw {
@@ -122,24 +129,24 @@ h3 {
 .right-menu {
     grid-column: 3;
     grid-row: 2;
-    background-color: #0f7173;
-    color: #ef8354;
+    background-color: var(--base-color);
+    color: var(--main-color);
     align-content: center;
     padding: 10px 0px 10px 0px;
     z-index: 1;
 }
 
 .pink-container {
-    background-color: #ee4b6a;
-    color: #0f7173;
+    background-color: var(--accent-color);
+    color: var(--base-color);
     width: 100%;
     margin-top: 10px;
     padding: 10px 0px 10px 0px;
     text-align: center;
 }
 .blue-container {
-    background-color: #0f7173;
-    color: #ef8354;
+    background-color: var(--base-color);
+    color: var(--main-color);
     width: 100%;
     margin-top: 10px;
     padding: 5px 0px 0px 0px;
@@ -152,7 +159,7 @@ h3 {
 }
 
 .view-container {
-    border: 5px solid #ef8354;
+    border: 5px solid var(--main-color);
     line-height: 0;
     background-color: #ebecb3;
     width: 0;
@@ -170,7 +177,7 @@ canvas {
 .item5 {
     grid-column: 3;
     grid-row: 3;
-    background-color: #0f7173;
+    background-color: var(--base-color);
 }
 
 .flex-center {

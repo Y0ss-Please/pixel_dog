@@ -1,4 +1,46 @@
 /*
+-- JS controlled page styling --
+*/
+
+// When the base color is changed, accent and main change in relation.
+// Window should maintain similar vibe no matter the base color.
+let baseColor = [15,113,115];
+let accentColor = solveAccentColor(baseColor);
+let mainColor = solveMainColor(baseColor);
+
+console.log(accentColor);
+console.log(mainColor);
+
+applyColors();
+
+function solveAccentColor(base){
+    let rgb = [base[0]+223,base[1]+217,base[2]+246];
+    for (i=0;i<rgb.length;i++){
+        if (rgb[i] > 255){
+            rgb[i] = rgb[i]-255;
+        }
+    }
+    return rgb;
+}
+
+function solveMainColor(base){
+    let rgb = [base[0]+224,base[1]+18,base[2]+224];
+    for (i=0;i<rgb.length;i++){
+        if (rgb[i] > 255){
+            rgb[i] = rgb[i]-255;
+        }
+    }
+    return rgb;
+}
+
+// Push color changes to css
+function applyColors() {
+    document.documentElement.style.setProperty('--base-color', "rgb("+baseColor[0]+","+baseColor[1]+","+baseColor[2]+")");
+    document.documentElement.style.setProperty('--accent-color', "rgb("+accentColor[0]+","+accentColor[1]+","+accentColor[2]+")");
+    document.documentElement.style.setProperty('--main-color', "rgb("+mainColor[0]+","+mainColor[1]+","+mainColor[2]+")");
+}
+
+/*
 -- The draw window --
 */
 
