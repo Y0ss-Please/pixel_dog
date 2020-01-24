@@ -17,6 +17,12 @@
 
 }
 
+html, body {
+    background-color: #0f7173;
+    height: 100%;
+    min-width: 100%
+}
+
 a {
     color: inherit;
     text-decoration: none;
@@ -27,6 +33,7 @@ h1 {
     font-size: 35px;
     line-height: 0.8;
     margin: 0;
+    padding-top: 15px;
     color: #ef8354;
 }
 
@@ -39,15 +46,9 @@ h2 {
 
 h3 {
     font-family: 'VCR', sans-serif;
-    font-size: 18px;
+    font-size: 15px;
     line-height: 0.8;
     margin: 0;
-}
-
-html, body {
-    width: 100%;
-    height: 100%;
-    background-color: #2e2e2e;
 }
 
 .pointer {
@@ -55,22 +56,37 @@ html, body {
 }
 
 .eas {
-    border: 20px solid #0f7173;
+    border: 20px solid #ef8354;
     margin: 0 auto;
 }
-
+/* ---MAIN GRID IS HERE -- */
 .main {
     display: grid;
-    height: 100%;
+    min-height: 100%;
     grid-template-columns: auto 1fr auto;
-    grid-template-rows: 10% auto 1fr 1fr;
+    grid-template-rows: 10vh auto 1fr;
 }
 /*grid item 1 */
-.menu {
+.left-menu {
     background-color: #0f7173;
     grid-column: 1 / 1;
     grid-row: 1 / span 4;
     padding: 10px;
+}
+
+.sticky-top {
+    position: sticky;
+    top: 0px;
+}
+
+.sticky-left {
+    position: sticky;
+    left: 0px;
+}
+
+.sticky-right {
+    position:sticky;
+    right:0px;
 }
 
 /*grid item 2 */
@@ -79,6 +95,7 @@ html, body {
     grid-column: 2 / span 3;
     grid-row: 1;
     overflow: hidden;
+    width:100%;
 }
 
 .header p {
@@ -89,25 +106,49 @@ html, body {
     white-space: nowrap;
     color: #0f7173;
 }
+
 /*grid item 3 */
 .eas-container { 
-    min-width: 560px;
     grid-column: 2;
     grid-row: 2 / span 4;
     background-color: #ef8354;
 }
 
+.eas {
+    flex: 0 0 auto;
+}
+
 /*grid item 4 */
-.preview-container {
+.right-menu {
     grid-column: 3;
     grid-row: 2;
     background-color: #0f7173;
+    color: #ef8354;
     align-content: center;
-    padding: 20px;
+    padding: 10px 0px 10px 0px;
+    z-index: 1;
 }
 
-.preview {
+.pink-container {
+    background-color: #ee4b6a;
+    color: #0f7173;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px 0px 10px 0px;
     text-align: center;
+}
+.blue-container {
+    background-color: #0f7173;
+    color: #ef8354;
+    width: 100%;
+    margin-top: 10px;
+    padding: 5px 0px 0px 0px;
+    text-align: center;
+}
+
+.preview-container {
+    text-align: center;
+    padding: 0px 10px 0px 10px;
 }
 
 .view-container {
@@ -126,15 +167,9 @@ canvas {
     transform: translateY(0);
 }
 /*grid item 5 */
-.save {
+.item5 {
     grid-column: 3;
     grid-row: 3;
-    background-color: #ee4b6a;
-}
-/*grid item 6 */
-.github {
-    grid-column: 3;
-    grid-row: 4;
     background-color: #0f7173;
 }
 
@@ -142,12 +177,4 @@ canvas {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.darkblue {
-    color: #0f7173;
-}
-
-.pink {
-    color: #ef8354;
 }

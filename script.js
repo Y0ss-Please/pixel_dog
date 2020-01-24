@@ -3,11 +3,11 @@
 */
 
 // Size of the draw window, must be a multiple of pixelHeight
-const easHeight = 512;
+const easHeight = 2048;
 const easWidth = easHeight;
 
 // Size of each pixel the user draws
-const pixelHeight = 4;
+const pixelHeight = 128;
 const pixelWidth = pixelHeight;
 
 const gridHeight = easHeight/pixelHeight;
