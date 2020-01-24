@@ -1,7 +1,13 @@
+/*
+-- The draw window --
+*/
+
+// Size of the draw window, must be a multiple of pixelHeight
 const easHeight = 512;
 const easWidth = easHeight;
 
-const pixelHeight = 8;
+// Size of each pixel the user draws
+const pixelHeight = 4;
 const pixelWidth = pixelHeight;
 
 const gridHeight = easHeight/pixelHeight;
@@ -40,15 +46,23 @@ function pixelSelected(e) {
     const pixel = document.getElementById(e.target.id);
     pixel.setAttribute('data-selected','true');
     pixel.classList.add("black");
-    updateView();
+    updatePreview();
 }
 
-const canvas = document.getElementById("view");
-const ctx = canvas.getContext("2d");
-canvas.width = gridWidth;   // viewport size is the grid converted to pixels
-canvas.height = gridHeight;
+/*
+-- Preview window on the right --
+*/
 
-function updateView() {
+const canvas = document.getElementById("preview");
+const ctx = canvas.getContext("2d");
+const viewContainer = document.getElementById("view-container");
+
+canvas.width = gridWidth;   // preview size is the grid converted to actual pixels
+canvas.height = gridHeight;
+viewContainer.style.width = gridWidth+"px";
+viewContainer.style.height = gridHeight+"px";
+
+function updatePreview() {
     let pixelID = 0;
 
     let imgData = ctx.createImageData(1, 1);
@@ -59,12 +73,12 @@ function updateView() {
                 imgData.data[0] = 0;
                 imgData.data[1] = 0;
                 imgData.data[2] = 0;
-                imgData.data[3] = 225;
+                imgData.data[3] = 255; //black
             }else{
                 imgData.data[0] = 0;
                 imgData.data[1] = 0;
                 imgData.data[2] = 0;
-                imgData.data[3] = 0;
+                imgData.data[3] = 0; //transparent
             }
 
             ctx.putImageData(imgData,o,i);            
@@ -74,11 +88,47 @@ function updateView() {
     }
 }
 
+/* -- Preview window scale-- */
+let scale = 1;
+// Listeners of the scale buttons
+document.getElementById("scale1").addEventListener('click', setPreviewScale);
+document.getElementById("scale2").addEventListener('click', setPreviewScale);
+document.getElementById("scale4").addEventListener('click', setPreviewScale);
+
+//set the scale and make changes css styling to prevent wrecking the page
+function setPreviewScale(e) {  
+    const newScale = e.target.id;
+    if (newScale === "scale4"){
+        scale = 4;
+        canvas.style.scale = scale;
+        canvas.style.transform = `translateY(${((gridWidth*scale)-gridWidth)/(scale*2)}px)`;
+        viewContainer.style.width = (gridWidth*scale)+"px";
+        viewContainer.style.height = (gridHeight*scale)+"px";
+    }else if (newScale === "scale2"){
+        scale = 2;
+        canvas.style.scale = scale;
+        canvas.style.transform = `translateY(${((gridWidth*scale)-gridWidth)/(scale*2)}px)`;
+        viewContainer.style.width = (gridWidth*scale)+"px";
+        viewContainer.style.height = (gridHeight*scale)+"px";
+    }else if (newScale === "scale1") {
+        scale = 1;
+        canvas.style.scale = scale;
+        canvas.style.transform = "translateY(0)"
+        viewContainer.style.width = gridWidth+"px";
+        viewContainer.style.height = gridHeight+"px";
+    }
+}
+
+
+/*
+-- Save link on the right --
+*/
+
 const saveButton = document.getElementById("save");
 saveButton.addEventListener('click',prepareImage);
 
 function prepareImage() {
-    image = canvas.toDataURL("image/png");
+    image = canvas.toDataURL("image/svg");
     saveButton.setAttribute("href",image);
     click.saveButton;
 }

@@ -39,7 +39,7 @@ h2 {
 
 h3 {
     font-family: 'VCR', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 0.8;
     margin: 0;
 }
@@ -62,14 +62,15 @@ html, body {
 .main {
     display: grid;
     height: 100%;
-    grid-template-columns: 20% 60% 20%;
-    grid-template-rows: 10% 30% 30% 30%;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: 10% auto 1fr 1fr;
 }
 /*grid item 1 */
 .menu {
     background-color: #0f7173;
     grid-column: 1 / 1;
     grid-row: 1 / span 4;
+    padding: 10px;
 }
 
 /*grid item 2 */
@@ -95,24 +96,26 @@ html, body {
     grid-row: 2 / span 4;
     background-color: #ef8354;
 }
-/*grid item 4 */
-.preview {
-    text-align: center;
-}
 
-.canvas-container {
+/*grid item 4 */
+.preview-container {
     grid-column: 3;
     grid-row: 2;
     background-color: #0f7173;
     align-content: center;
+    padding: 20px;
+}
+
+.preview {
+    text-align: center;
 }
 
 .view-container {
     border: 5px solid #ef8354;
     line-height: 0;
     background-color: #ebecb3;
-    width:64px;
-    height:64px;
+    width: 0;
+    height: 0;
     margin: 0 auto;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -120,15 +123,16 @@ html, body {
 
 canvas {
     scale: 1;
+    transform: translateY(0);
 }
 /*grid item 5 */
-.item5 {
+.save {
     grid-column: 3;
     grid-row: 3;
     background-color: #ee4b6a;
 }
 /*grid item 6 */
-.item6 {
+.github {
     grid-column: 3;
     grid-row: 4;
     background-color: #0f7173;
