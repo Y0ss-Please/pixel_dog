@@ -55,7 +55,7 @@ h3 {
     cursor:pointer;
 }
 
-.eas {
+.draw {
     border: 20px solid #ef8354;
     margin: 0 auto;
 }
@@ -108,13 +108,13 @@ h3 {
 }
 
 /*grid item 3 */
-.eas-container { 
+.draw-container { 
     grid-column: 2;
     grid-row: 2 / span 4;
     background-color: #ef8354;
 }
 
-.eas {
+.draw {
     flex: 0 0 auto;
 }
 

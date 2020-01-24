@@ -1,6 +1,6 @@
-/* Styles for the Etch-A-Sketch */
+/* Styles for the Drawing area */
 
-.eas {
+.draw {
     width: 512px;
     height: 512px;
     display: grid;
@@ -9,7 +9,7 @@
     overflow: hidden;
 }
 
-.eas-pixel {
+.draw-pixel {
     background-color: #ebecb3;
 }
 

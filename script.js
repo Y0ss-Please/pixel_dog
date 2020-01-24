@@ -3,37 +3,37 @@
 */
 
 // Size of the draw window, must be a multiple of pixelHeight
-const easHeight = 2048;
-const easWidth = easHeight;
+const drawHeight = 512;
+const drawWidth = drawHeight;
 
 // Size of each pixel the user draws
-const pixelHeight = 128;
+const pixelHeight = 16;
 const pixelWidth = pixelHeight;
 
-const gridHeight = easHeight/pixelHeight;
+const gridHeight = drawHeight/pixelHeight;
 const gridWidth = gridHeight;
 
-const eas = document.querySelector(".eas");
+const draw = document.querySelector(".draw");
 let numberOfPixels = gridHeight*gridWidth;
 
 initialize();
 
 function initialize() {
-    eas.style.width = easWidth+"px";
-    eas.style.height = easHeight+"px";
+    draw.style.width = drawWidth+"px";
+    draw.style.height = drawHeight+"px";
 
     // setup grid
     for (i=0;i<gridWidth;i++){
-        eas.style.gridTemplateColumns = eas.style.gridTemplateColumns+" "+pixelWidth+"px";
-        eas.style.gridTemplateRows = eas.style.gridTemplateRows+" "+pixelHeight+"px";
+        draw.style.gridTemplateColumns = draw.style.gridTemplateColumns+" "+pixelWidth+"px";
+        draw.style.gridTemplateRows = draw.style.gridTemplateRows+" "+pixelHeight+"px";
     }
 
     // fill grid with pixels
     for (i=0;i<numberOfPixels;i++){
         const blankPixel = document.createElement("div");
-        blankPixel.classList.add("eas-pixel");
+        blankPixel.classList.add("draw-pixel");
         blankPixel.setAttribute("id",i)
-        eas.appendChild(blankPixel);
+        draw.appendChild(blankPixel);
         document.getElementById(i).addEventListener('mouseover', pixelSelected);
 
     }
