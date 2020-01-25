@@ -1,4 +1,192 @@
 /*
+-- The draw window --
+*/
+
+// Size of the draw window, must be a multiple of pixelHeight
+const drawHeight = 512;
+const drawWidth = drawHeight;
+
+// Size of each pixel the user draws
+const pixelHeight = 16;
+const pixelWidth = pixelHeight;
+
+const gridHeight = drawHeight/pixelHeight;
+const gridWidth = gridHeight;
+
+const draw = document.querySelector(".draw");
+let numberOfPixels = gridHeight*gridWidth;
+
+function initialize() {
+    draw.style.width = drawWidth+"px";
+    draw.style.height = drawHeight+"px";
+
+    // setup grid
+    for (i=0;i<gridWidth;i++){
+        draw.style.gridTemplateColumns = draw.style.gridTemplateColumns+" "+pixelWidth+"px";
+        draw.style.gridTemplateRows = draw.style.gridTemplateRows+" "+pixelHeight+"px";
+    }
+
+    // fill grid with pixels
+    for (i=0;i<numberOfPixels;i++){
+        const blankPixel = document.createElement("div");
+        blankPixel.classList.add("draw-pixel");
+        blankPixel.setAttribute("id",i)
+        draw.appendChild(blankPixel);
+        document.getElementById(i).addEventListener('mouseover', pixelSelected);
+
+    }
+}
+
+function pixelSelected(e) {
+    if (!e.target.id){ // check if e.target.id exsists, prevents passing null through function on quick mouse movements.
+        return;
+    }
+    const pixel = document.getElementById(e.target.id);
+    pixel.setAttribute('data-selected','true');
+    pixel.classList.add("black");
+    updatePreview();
+}
+
+// Zoom in and out on scroll wheel
+let zoomLevel = 1;
+const zoomContainer = document.querySelector(".zoom-container");
+
+window.addEventListener('wheel', function(e){
+    if (e.deltaY < 0) {
+        zoom("in");
+    } else if (e.deltaY >0) {
+        zoom("out");
+    }
+    console.log(changeInHeight);
+});
+
+function zoom(direction){
+    if (direction == "in") {
+        zoomLevel = zoomLevel + 0.1;    // Using a non-interger value here causes --very-- odd decimals.
+    } else if (direction == "out") {
+         zoomLevel = zoomLevel - 0.1;
+    }
+    zoomLevel = Math.round((zoomLevel*10))/10; //round to a single decimal point.
+    
+    draw.style.scale = zoomLevel;
+    zoomContainer.style.width = drawWidth*zoomLevel+"px";
+    zoomContainer.style.height = drawHeight*zoomLevel+"px";
+}
+
+// Disable scrolling with the mouse wheel
+
+// left: 37, up: 38, right: 39, down: 40,
+// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
+function preventDefault(e) {
+    e = e || window.event;
+    if (e.preventDefault)
+        e.preventDefault();
+    e.returnValue = false;  
+}
+  
+  function preventDefaultForScrollKeys(e) {
+    if (keys[e.keyCode]) {
+        preventDefault(e);
+        return false;
+    }
+}
+
+function disableScroll() {
+    if (window.addEventListener) // older FF
+        window.addEventListener('DOMMouseScroll', preventDefault, false);
+    document.addEventListener('wheel', preventDefault, {passive: false}); // Disable scrolling in Chrome
+    window.onwheel = preventDefault; // modern standard
+    window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+    window.ontouchmove  = preventDefault; // mobile
+    document.onkeydown  = preventDefaultForScrollKeys;
+}
+/*
+-- Preview window on the right --
+*/
+
+const canvas = document.getElementById("preview");
+const ctx = canvas.getContext("2d");
+const viewContainer = document.getElementById("view-container");
+
+canvas.width = gridWidth;   // preview size is the grid converted to actual pixels
+canvas.height = gridHeight;
+viewContainer.style.width = gridWidth+"px";
+viewContainer.style.height = gridHeight+"px";
+
+function updatePreview() {
+    let pixelID = 0;
+
+    let imgData = ctx.createImageData(1, 1);
+
+    for (i=0;i<gridHeight;i++) {
+        for (o=0;o<gridWidth;o++) {
+            if (document.getElementById(pixelID).getAttribute("data-selected")){
+                imgData.data[0] = 0;
+                imgData.data[1] = 0;
+                imgData.data[2] = 0;
+                imgData.data[3] = 255; //black
+            }else{
+                imgData.data[0] = 0;
+                imgData.data[1] = 0;
+                imgData.data[2] = 0;
+                imgData.data[3] = 0; //transparent
+            }
+
+            ctx.putImageData(imgData,o,i);            
+
+            pixelID++;
+        }
+    }
+}
+
+/* -- Preview window scale-- */
+let previewScale = 1;
+// Listeners of the previewScale buttons
+document.getElementById("previewScale1").addEventListener('click', setPreviewScale);
+document.getElementById("previewScale2").addEventListener('click', setPreviewScale);
+document.getElementById("previewScale4").addEventListener('click', setPreviewScale);
+
+//set the previewScale and make changes css styling to prevent wrecking the page
+function setPreviewScale(e) {  
+    const newpreviewScale = e.target.id;
+    if (newpreviewScale === "previewScale4"){
+        previewScale = 4;
+        canvas.style.Scale = previewScale;
+        canvas.style.transform = `translateY(${((gridWidth*previewScale)-gridWidth)/(previewScale*2)}px)`;
+        viewContainer.style.width = (gridWidth*previewScale)+"px";
+        viewContainer.style.height = (gridHeight*previewScale)+"px";
+    }else if (newpreviewScale === "previewScale2"){
+        previewScale = 2;
+        canvas.style.Scale = previewScale;
+        canvas.style.transform = `translateY(${((gridWidth*previewScale)-gridWidth)/(previewScale*2)}px)`;
+        viewContainer.style.width = (gridWidth*previewScale)+"px";
+        viewContainer.style.height = (gridHeight*previewScale)+"px";
+    }else if (newpreviewScale === "previewScale1") {
+        previewScale = 1;
+        canvas.style.Scale = previewScale;
+        canvas.style.transform = "translateY(0)"
+        viewContainer.style.width = gridWidth+"px";
+        viewContainer.style.height = gridHeight+"px";
+    }
+}
+
+
+/*
+-- Save link on the right --
+*/
+
+const saveButton = document.getElementById("save");
+saveButton.addEventListener('click',prepareImage);
+
+function prepareImage() {
+    image = canvas.toDataURL("image/svg");
+    saveButton.setAttribute("href",image);
+    click.saveButton;
+}
+
+/*
 -- JS controlled page styling --
 */
 
@@ -51,137 +239,5 @@ function applyColors() {
     document.documentElement.style.setProperty('--main-color', "rgb("+mainColor[0]+","+mainColor[1]+","+mainColor[2]+")");
 }
 
-/*
--- The draw window --
-*/
-
-// Size of the draw window, must be a multiple of pixelHeight
-const drawHeight = 512;
-const drawWidth = drawHeight;
-
-// Size of each pixel the user draws
-const pixelHeight = 32;
-const pixelWidth = pixelHeight;
-
-const gridHeight = drawHeight/pixelHeight;
-const gridWidth = gridHeight;
-
-const draw = document.querySelector(".draw");
-let numberOfPixels = gridHeight*gridWidth;
-
 initialize();
-
-function initialize() {
-    draw.style.width = drawWidth+"px";
-    draw.style.height = drawHeight+"px";
-
-    // setup grid
-    for (i=0;i<gridWidth;i++){
-        draw.style.gridTemplateColumns = draw.style.gridTemplateColumns+" "+pixelWidth+"px";
-        draw.style.gridTemplateRows = draw.style.gridTemplateRows+" "+pixelHeight+"px";
-    }
-
-    // fill grid with pixels
-    for (i=0;i<numberOfPixels;i++){
-        const blankPixel = document.createElement("div");
-        blankPixel.classList.add("draw-pixel");
-        blankPixel.setAttribute("id",i)
-        draw.appendChild(blankPixel);
-        document.getElementById(i).addEventListener('mouseover', pixelSelected);
-
-    }
-}
-
-function pixelSelected(e) {
-    if (!e.target.id){ // check if e.target.id exsists, prevents passing null through function on quick mouse movements.
-        return;
-    }
-    const pixel = document.getElementById(e.target.id);
-    pixel.setAttribute('data-selected','true');
-    pixel.classList.add("black");
-    updatePreview();
-}
-
-/*
--- Preview window on the right --
-*/
-
-const canvas = document.getElementById("preview");
-const ctx = canvas.getContext("2d");
-const viewContainer = document.getElementById("view-container");
-
-canvas.width = gridWidth;   // preview size is the grid converted to actual pixels
-canvas.height = gridHeight;
-viewContainer.style.width = gridWidth+"px";
-viewContainer.style.height = gridHeight+"px";
-
-function updatePreview() {
-    let pixelID = 0;
-
-    let imgData = ctx.createImageData(1, 1);
-
-    for (i=0;i<gridHeight;i++) {
-        for (o=0;o<gridWidth;o++) {
-            if (document.getElementById(pixelID).getAttribute("data-selected")){
-                imgData.data[0] = 0;
-                imgData.data[1] = 0;
-                imgData.data[2] = 0;
-                imgData.data[3] = 255; //black
-            }else{
-                imgData.data[0] = 0;
-                imgData.data[1] = 0;
-                imgData.data[2] = 0;
-                imgData.data[3] = 0; //transparent
-            }
-
-            ctx.putImageData(imgData,o,i);            
-
-            pixelID++;
-        }
-    }
-}
-
-/* -- Preview window scale-- */
-let scale = 1;
-// Listeners of the scale buttons
-document.getElementById("scale1").addEventListener('click', setPreviewScale);
-document.getElementById("scale2").addEventListener('click', setPreviewScale);
-document.getElementById("scale4").addEventListener('click', setPreviewScale);
-
-//set the scale and make changes css styling to prevent wrecking the page
-function setPreviewScale(e) {  
-    const newScale = e.target.id;
-    if (newScale === "scale4"){
-        scale = 4;
-        canvas.style.scale = scale;
-        canvas.style.transform = `translateY(${((gridWidth*scale)-gridWidth)/(scale*2)}px)`;
-        viewContainer.style.width = (gridWidth*scale)+"px";
-        viewContainer.style.height = (gridHeight*scale)+"px";
-    }else if (newScale === "scale2"){
-        scale = 2;
-        canvas.style.scale = scale;
-        canvas.style.transform = `translateY(${((gridWidth*scale)-gridWidth)/(scale*2)}px)`;
-        viewContainer.style.width = (gridWidth*scale)+"px";
-        viewContainer.style.height = (gridHeight*scale)+"px";
-    }else if (newScale === "scale1") {
-        scale = 1;
-        canvas.style.scale = scale;
-        canvas.style.transform = "translateY(0)"
-        viewContainer.style.width = gridWidth+"px";
-        viewContainer.style.height = gridHeight+"px";
-    }
-}
-
-
-/*
--- Save link on the right --
-*/
-
-const saveButton = document.getElementById("save");
-saveButton.addEventListener('click',prepareImage);
-
-function prepareImage() {
-    image = canvas.toDataURL("image/svg");
-    saveButton.setAttribute("href",image);
-    click.saveButton;
-}
+disableScroll();

@@ -9,26 +9,29 @@
     </head>
     <body>
         <div class="main">
-            <div class="sticky-left left-menu">
-                <h1 class="sticky-top">&#60;OPTIONS&#62;</h1>
+            <div class="sticky-left sticky-top left-menu">
+                <h1>&#60;OPTIONS&#62;</h1>
                 <h2>&#60;COLORS&#62;</h2>
                 <input id="color-picker" type="color" value="rgb(0,0,0)">
             </div>
+
             <div class="header">
                 <p>&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;</p>
                 <p>&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;</p>
                 <p>&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;PIXEL.DOG&#62;&#60;</p>
             </div>
+
             <div class="draw-container flex-center">
                 <div class="draw"></div>
             </div>
+
             <div class="sticky-top sticky-right right-menu">
                 <div class="preview-container">
                     <h2 class="pink">&#60;PREVIEW&#62;</h2>
                     <div id="view-container" class="view-container">
                         <canvas id="preview"></canvas>
                     </div>
-                    <h3><a class="pointer" id="scale1">&#60;x1&#62;</a> <a class="pointer" id=scale2>&#60;x2&#62;</a> <a class="pointer" id="scale4">&#60;x4&#62;</a></h3>
+                    <h3><a class="pointer" id="previewScale1">&#60;x1&#62;</a> <a class="pointer" id=previewScale2>&#60;x2&#62;</a> <a class="pointer" id="previewScale4">&#60;x4&#62;</a></h3>
                  </div>
                  <div class="pink-container">
                     <h2><a id="save" href="" download="pixeldog">&#60;SAVE&#62;</a></h2>
@@ -37,7 +40,6 @@
                     <h2><a href="https://github.com/Y0ss-Please/pixel_dog">&#60;GITHUB&#62;</a></h2>
                  </div>
             </div>
-            <div class="item5 sticky-right sticky-top"></div>
         </div>
         <script src="script.js"></script>
     </body>
