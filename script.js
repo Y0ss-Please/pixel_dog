@@ -1,3 +1,8 @@
+let isMouseDown = false;
+
+document.body.onmousedown = (() => isMouseDown = true);
+document.body.onmouseup = (() => isMouseDown = false);
+
 /*
 -- The draw window --
 */
@@ -32,24 +37,39 @@ function initializeDrawArea() {
         blankPixel.classList.add("draw-pixel");
         blankPixel.setAttribute("id",i)
         draw.appendChild(blankPixel);
-        document.getElementById(i).addEventListener('mouseover', pixelSelected);
+        document.getElementById(i).addEventListener('click', pixelClicked);
+        document.getElementById(i).addEventListener('mousemove', pixelDrag);
 
     }
 }
 
-let currentColor = '#000000';
+function pixelClicked(e) {
+    pixelSelected(e);
+}
 
-function pixelSelected(e) {
-    if (!e.target.id){ // check if e.target.id exsists, prevents passing null through function on quick mouse movements.
-        return;
+function pixelDrag(e) {
+    if (isMouseDown) {
+        pixelSelected(e);
     }
+}
+
+// alterting the selected pixel
+function pixelSelected(e) {
+    if (!e.target.id){return;} // check if e.target.id exsists, prevents passing null through function on quick mouse movements.
     const pixel = document.getElementById(e.target.id);
     pixel.setAttribute('data-selected','true');
-   // pixel.classList.add(currentColor);
-    pixel.style.setProperty('background-color', currentColor);
     pixel.setAttribute('data-color', currentColor);
+    pixel.style.setProperty('background-color', currentColor);
     updatePreview();
 }
+
+// changing the color
+let currentColor = '#000000';
+const colorPicker = document.querySelector("#color-picker");
+colorPicker.addEventListener('change',() => {
+    currentColor = colorPicker.value
+    document.documentElement.style.setProperty('--current-color', currentColor);
+});
 
 // Zoom in and out on scroll wheel
 let scale = 1;
@@ -218,12 +238,7 @@ let baseColor = [15,113,115]; // original base is [15,113,115] if your playing w
 let accentColor = solveAccentColor(baseColor);
 let mainColor = solveMainColor(baseColor);
 
-const colorPicker = document.querySelector("#color-picker");
-colorPicker.addEventListener('change', setBaseColor);
-colorPicker.addEventListener('change', applyColors);
-
 function setBaseColor() {
-    currentColor = this.value;
     baseColor = hexColorToRGB(this.value);
     accentColor = solveAccentColor(baseColor)
     mainColor = solveMainColor(baseColor);

@@ -3,7 +3,7 @@
     --accent-color: rgb(238, 75, 106);
     --main-color: rgb(239, 131, 84);
 
-    --current-color: rgb(0,0,0);
+    --current-color: #000000;
 }
 
 @font-face {
@@ -171,4 +171,12 @@ canvas {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.no-select-drag {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
