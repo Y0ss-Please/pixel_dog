@@ -2,6 +2,8 @@
     --base-color: rgb(15, 113, 115);
     --accent-color: rgb(238, 75, 106);
     --main-color: rgb(239, 131, 84);
+
+    --current-color: rgb(0,0,0);
 }
 
 @font-face {
@@ -74,9 +76,13 @@ h3 {
 
 .draw-pixel {
     box-sizing: border-box;
-    border-top: 1px dashed rgb(126, 125, 124);
-    border-right: 1px dashed rgb(126, 125, 124);
+    border-top: 1px dashed rgba(126, 125, 124, 0.4);
+    border-right: 1px dashed rgba(126, 125, 124, 0.4);
     background-color: #ebecb3;
+}
+
+.draw-pixel:hover {
+    background-color: var(--current-color);
 }
 
 .black {

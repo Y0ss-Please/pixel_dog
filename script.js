@@ -37,13 +37,17 @@ function initializeDrawArea() {
     }
 }
 
+let currentColor = '#000000';
+
 function pixelSelected(e) {
     if (!e.target.id){ // check if e.target.id exsists, prevents passing null through function on quick mouse movements.
         return;
     }
     const pixel = document.getElementById(e.target.id);
     pixel.setAttribute('data-selected','true');
-    pixel.classList.add("black");
+   // pixel.classList.add(currentColor);
+    pixel.style.setProperty('background-color', currentColor);
+    pixel.setAttribute('data-color', currentColor);
     updatePreview();
 }
 
@@ -137,10 +141,11 @@ function updatePreview() {
     for (i=0;i<gridHeight;i++) {
         for (o=0;o<gridWidth;o++) {
             if (document.getElementById(pixelID).getAttribute("data-selected")){
-                imgData.data[0] = 0;
-                imgData.data[1] = 0;
-                imgData.data[2] = 0;
-                imgData.data[3] = 255; //black
+                const pixelColor = hexColorToRGB(document.getElementById(pixelID).getAttribute('data-color'));
+                imgData.data[0] = pixelColor[0];
+                imgData.data[1] = pixelColor[1];
+                imgData.data[2] = pixelColor[2];
+                imgData.data[3] = 255; // Full Alpha
             }else{
                 imgData.data[0] = 0;
                 imgData.data[1] = 0;
@@ -218,6 +223,7 @@ colorPicker.addEventListener('change', setBaseColor);
 colorPicker.addEventListener('change', applyColors);
 
 function setBaseColor() {
+    currentColor = this.value;
     baseColor = hexColorToRGB(this.value);
     accentColor = solveAccentColor(baseColor)
     mainColor = solveMainColor(baseColor);
