@@ -40,7 +40,6 @@ h1 {
     font-size: 35px;
     line-height: 0.8;
     margin: 0;
-    padding-top: 15px;
 }
 
 h2 {
@@ -88,19 +87,15 @@ h3 {
 .main {
     display: grid;
     min-height: 100%;
-    /*
-    grid-template-columns: 15vw minmax(75vw,1000%) 10vw;
-    grid-template-rows: 10vh minmax(90vh,1000%);
-    */
 }
 /*grid item 1 */
 .left-menu {
     background-color: var(--base-color);
     grid-column: 1 / 1;
     grid-row: 1 / span 3;
-    padding: 10px;
     text-align: center;
     color: var(--main-color);
+    width:15vw;
 }
 
 .sticky-top {
@@ -108,20 +103,10 @@ h3 {
     top: 0px;
 }
 
-.sticky-left {
-    position: sticky;
-    left: 0px;
-}
-
-.sticky-right {
-    position:sticky;
-    right:0px;
-}
-
 /*grid item 2 */
 .header {
     background-color: var(--accent-color);
-    grid-column: 2 / span 3;
+    grid-column: 2 / span 2;
     grid-row: 1;
     overflow: hidden;
     min-width:100%;
@@ -141,63 +126,39 @@ h3 {
 
 .draw-container { 
     grid-column: 2;
-    grid-row: 2;
     background-color: var(--main-color);
-    min-width: 75vw;
     min-height: 90vh;
-}
-
-.draw {
-    flex: 0 0 auto;
-}
-
-/*grid item 4 */
-.right-menu {
-    grid-column: 3;
-    grid-row: 2;
-    background-color: var(--base-color);
-    color: var(--main-color);
-    align-content: center;
-    padding: 10px 0px 10px 0px;
-    z-index: 1;
+    min-width: 85vw;
 }
 
 .pink-container {
     background-color: var(--accent-color);
     color: var(--base-color);
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px 0px 10px 0px;
     text-align: center;
 }
 .blue-container {
     background-color: var(--base-color);
     color: var(--main-color);
-    width: 100%;
-    margin-top: 10px;
-    padding: 5px 0px 0px 0px;
     text-align: center;
 }
 
 .preview-container {
     text-align: center;
-    padding: 0px 10px 0px 10px;
 }
 
 .view-container {
     border: 5px solid var(--main-color);
     line-height: 0;
     background-color: #ebecb3;
-    width: 0;
-    height: 0;
+    width: 0; /* Set by script.js */
+    height: 0; /* Set by script.js */
     margin: 0 auto;
-    margin-top: 5px;
-    margin-bottom: 5px;
+
 }
 
 canvas {
-    scale: 1;
-    transform: translateY(0);
+    scale: 1; /* Set by script.js */
+    transform: translateY(0); /* Set by script.js */
 }
 
 .flex-center {

@@ -65,7 +65,13 @@ function zoom(direction){
          scale = scale - 0.1;
     }
     scale = Math.round((scale*10))/10; //round to a single decimal point.
+    if (scale < 0.2) {
+        scale = 0.2;
+    }else if (scale > 3) {
+        scale = 3;
+    }
     scaleDraw();
+    console.log(scale);
 }
 
 // Change the size of the draw area and its pixels
@@ -158,22 +164,25 @@ document.getElementById("previewScale4").addEventListener('click', setPreviewSca
 
 //set the previewScale and make changes css styling to prevent wrecking the page
 function setPreviewScale(e) {  
+
+    console.log(e);
+
     const newpreviewScale = e.target.id;
     if (newpreviewScale === "previewScale4"){
         previewScale = 4;
-        canvas.style.Scale = previewScale;
+        canvas.style.scale = previewScale;
         canvas.style.transform = `translateY(${((gridWidth*previewScale)-gridWidth)/(previewScale*2)}px)`;
         viewContainer.style.width = (gridWidth*previewScale)+"px";
         viewContainer.style.height = (gridHeight*previewScale)+"px";
     }else if (newpreviewScale === "previewScale2"){
         previewScale = 2;
-        canvas.style.Scale = previewScale;
+        canvas.style.scale = previewScale;
         canvas.style.transform = `translateY(${((gridWidth*previewScale)-gridWidth)/(previewScale*2)}px)`;
         viewContainer.style.width = (gridWidth*previewScale)+"px";
         viewContainer.style.height = (gridHeight*previewScale)+"px";
     }else if (newpreviewScale === "previewScale1") {
         previewScale = 1;
-        canvas.style.Scale = previewScale;
+        canvas.style.scale = previewScale;
         canvas.style.transform = "translateY(0)"
         viewContainer.style.width = gridWidth+"px";
         viewContainer.style.height = gridHeight+"px";
