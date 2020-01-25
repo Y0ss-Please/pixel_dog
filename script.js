@@ -16,7 +16,7 @@ const gridWidth = gridHeight;
 const draw = document.querySelector(".draw");
 let numberOfPixels = gridHeight*gridWidth;
 
-function initialize() {
+function initializeDrawArea() {
     draw.style.width = drawWidth+"px";
     draw.style.height = drawHeight+"px";
 
@@ -48,8 +48,7 @@ function pixelSelected(e) {
 }
 
 // Zoom in and out on scroll wheel
-let zoomLevel = 1;
-const zoomContainer = document.querySelector(".zoom-container");
+let scale = 1;
 
 window.addEventListener('wheel', function(e){
     if (e.deltaY < 0) {
@@ -57,24 +56,33 @@ window.addEventListener('wheel', function(e){
     } else if (e.deltaY >0) {
         zoom("out");
     }
-    console.log(changeInHeight);
 });
 
 function zoom(direction){
     if (direction == "in") {
-        zoomLevel = zoomLevel + 0.1;    // Using a non-interger value here causes --very-- odd decimals.
+        scale = scale + 0.1;    // Using a non-interger value here causes --very-- odd decimals.
     } else if (direction == "out") {
-         zoomLevel = zoomLevel - 0.1;
+         scale = scale - 0.1;
     }
-    zoomLevel = Math.round((zoomLevel*10))/10; //round to a single decimal point.
-    
-    draw.style.scale = zoomLevel;
-    zoomContainer.style.width = drawWidth*zoomLevel+"px";
-    zoomContainer.style.height = drawHeight*zoomLevel+"px";
+    scale = Math.round((scale*10))/10; //round to a single decimal point.
+    scaleDraw();
+}
+
+// Change the size of the draw area and its pixels
+function scaleDraw() {
+    draw.style.gridTemplateColumns = '';
+    draw.style.gridTemplateRows = '';
+
+    draw.style.width = drawWidth*scale+"px";
+    draw.style.height = drawHeight*scale+"px";
+
+    for (i=0;i<gridWidth;i++){
+        draw.style.gridTemplateColumns = draw.style.gridTemplateColumns+" "+pixelWidth*scale+"px";
+        draw.style.gridTemplateRows = draw.style.gridTemplateRows+" "+pixelHeight*scale+"px";
+    }
 }
 
 // Disable scrolling with the mouse wheel
-
 // left: 37, up: 38, right: 39, down: 40,
 // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
 var keys = {37: 1, 38: 1, 39: 1, 40: 1};
@@ -239,5 +247,5 @@ function applyColors() {
     document.documentElement.style.setProperty('--main-color', "rgb("+mainColor[0]+","+mainColor[1]+","+mainColor[2]+")");
 }
 
-initialize();
+initializeDrawArea();
 disableScroll();
