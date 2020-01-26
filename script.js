@@ -21,6 +21,9 @@ const gridWidth = gridHeight;
 const draw = document.querySelector(".draw");
 let numberOfPixels = gridHeight*gridWidth;
 
+const drawContainer = document.querySelector(".draw-container");
+const drawArea = document.querySelector(".draw");
+
 function initializeDrawArea() {
     document.documentElement.style.setProperty('--draw-width', drawWidth);
     document.documentElement.style.setProperty('--draw-height', drawHeight);
@@ -88,14 +91,13 @@ function zoom(direction){
     } else if (direction == "out") {
          scale = scale - 0.05;
     }
-    scale = Math.round((scale*100))/100; //round to a single decimal point.
+    scale = Math.round((scale*100))/100; // round to two decimal points. Drops the weird decimals from above.
     if (scale < 0.1) {
         scale = 0.1;
     }else if (scale > 3) {
         scale = 3;
     }
     scaleDraw();
-    console.log(scale);
 }
 
 // Change the size of the draw area and its pixels
@@ -110,6 +112,11 @@ function scaleDraw() {
         draw.style.gridTemplateColumns = draw.style.gridTemplateColumns+" "+pixelWidth*scale+"px";
         draw.style.gridTemplateRows = draw.style.gridTemplateRows+" "+pixelHeight*scale+"px";
     }
+
+    // scale the draw-container to match the szie of the draw area. Causes the div to push larger and allow for scrolling.
+    // when resized smaller then its min-width/height the min sizing overrules.
+    drawContainer.style.width = drawArea.style.width;
+    drawContainer.style.height = drawArea.style.height;
 }
 
 // Disable scrolling with the mouse wheel

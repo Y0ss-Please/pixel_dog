@@ -61,35 +61,9 @@ h3 {
     margin: 0;
 }
 
-.pointer {
-    cursor:pointer;
-}
-/* ---DRAW AREA IS HERE -- */
-
-.draw {
-    top:0px;
-    width: var(--draw-width);
-    height: var(--draw-height);
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
-    overflow: hidden;
-}
-
-.draw-pixel {
-    box-sizing: border-box;
-    border-top: 1px dashed rgba(126, 125, 124, 0.4);
-    border-right: 1px dashed rgba(126, 125, 124, 0.4);
-    background-color: #ebecb3;
-}
-
-.draw-pixel:hover {
-    background-color: var(--current-color) !important;
-}
-
-.black {
-    background-color: var(--base-color);
+canvas {
+    scale: 1; /* Set by script.js */
+    transform: translateY(0); /* Set by script.js */
 }
 
 /* ---MAIN GRID IS HERE -- */
@@ -105,6 +79,31 @@ h3 {
     text-align: center;
     color: var(--main-color);
     width:15vw;
+}
+
+.pink-container {
+    background-color: var(--accent-color);
+    color: var(--base-color);
+    text-align: center;
+}
+.blue-container {
+    background-color: var(--base-color);
+    color: var(--main-color);
+    text-align: center;
+}
+
+.preview-container {
+    text-align: center;
+}
+
+.view-container {
+    border: 5px solid var(--main-color);
+    line-height: 0;
+    background-color: #ebecb3;
+    width: 0; /* Set by script.js */
+    height: 0; /* Set by script.js */
+    margin: 0 auto;
+
 }
 
 .sticky-top {
@@ -136,38 +135,39 @@ h3 {
 .draw-container { 
     grid-column: 2;
     background-color: var(--main-color);
-    min-height: 90vh;
-    min-width: 85vw;
+    min-height: 90vh !important;
+    min-width: 85vw !important;
+    width: auto;
+    overflow: auto;
 }
+/* ---DRAW AREA IS HERE -- */
 
-.pink-container {
-    background-color: var(--accent-color);
-    color: var(--base-color);
-    text-align: center;
-}
-.blue-container {
-    background-color: var(--base-color);
-    color: var(--main-color);
-    text-align: center;
-}
-
-.preview-container {
-    text-align: center;
-}
-
-.view-container {
-    border: 5px solid var(--main-color);
-    line-height: 0;
-    background-color: #ebecb3;
-    width: 0; /* Set by script.js */
-    height: 0; /* Set by script.js */
+.draw {
+    top:0px;
+    width: var(--draw-width);
+    height: var(--draw-height);
     margin: 0 auto;
-
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    overflow: auto;
 }
 
-canvas {
-    scale: 1; /* Set by script.js */
-    transform: translateY(0); /* Set by script.js */
+.draw-pixel {
+    box-sizing: border-box;
+    border-top: 1px dashed rgba(126, 125, 124, 0.4);
+    border-right: 1px dashed rgba(126, 125, 124, 0.4);
+    background-color: #ebecb3;
+}
+
+.draw-pixel:hover {
+    background-color: var(--current-color) !important;
+}
+
+/* Helper Classes */
+
+.pointer {
+    cursor:pointer;
 }
 
 .flex-center {
