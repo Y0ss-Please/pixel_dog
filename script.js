@@ -1,8 +1,38 @@
-let isMouseDown = false;
+/*
+-- Input Listeners --
+- mousemove and click listeners are in initializeDrawArea()
+*/
 
-document.body.onmousedown = (() => isMouseDown = true);
-document.body.onmouseup = (() => isMouseDown = false);
+let mouseDown = [];
+let keyPressed = [];
 
+document.addEventListener('mousedown', (e) => {
+    if (mouseDown.indexOf(e.button) === -1) { //check if mouse button is already in array
+        mouseDown.push(e.button);
+    }
+});
+
+document.addEventListener('mouseup', (e) => {
+    mouseDown.splice(mouseDown.indexOf(e.button),1); // remove from array on button release
+});
+
+function checkForMouseDown(button) {
+    return (mouseDown.indexOf(button) != -1) ? true : false; // if button is not in array, it must be down.
+}
+
+document.addEventListener('keydown', (e) => {
+    if (keyPressed.indexOf(e.keyCode) === -1) { //check if key is already in keyPressed array.
+        keyPressed.push(e.keyCode);
+    }
+});
+
+document.addEventListener('keyup', (e) => {
+    keyPressed.splice(keyPressed.indexOf(e.keycode),1); // remove key from array on release.
+});
+
+function checkForKeyDown(key) {
+    return (keyPressed.indexOf(key) != -1) ? true : false;
+}
 /*
 -- The draw window --
 */
@@ -40,24 +70,28 @@ function initializeDrawArea() {
         blankPixel.classList.add("draw-pixel");
         blankPixel.setAttribute("id",i)
         draw.appendChild(blankPixel);
-        document.getElementById(i).addEventListener('click', pixelClicked);
-        document.getElementById(i).addEventListener('mousemove', pixelDrag);
+
+        // Mouse move and click listeners 
+        document.getElementById(i).addEventListener('click', clickOnPixel);
+        document.getElementById(i).addEventListener('mousemove', dragOnPixel);
 
     }
 }
 
-function pixelClicked(e) {
-    pixelSelected(e);
+// check for keys and call the appropriate function
+function clickOnPixel(e) {
+    alterPixel(e);
 }
 
-function pixelDrag(e) {
-    if (isMouseDown) {
-        pixelSelected(e);
+function dragOnPixel(e) {
+   // if (mouseDown)
+    if (checkForMouseDown(0)) {
+        alterPixel(e);
     }
 }
 
 // alterting the selected pixel
-function pixelSelected(e) {
+function alterPixel(e) {
     if (!e.target.id){return;} // check if e.target.id exsists, prevents passing null through function on quick mouse movements.
     const pixel = document.getElementById(e.target.id);
     pixel.setAttribute('data-selected','true');
