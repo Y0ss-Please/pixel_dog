@@ -82,7 +82,7 @@ h3 {
 }
 
 .draw-pixel:hover {
-    background-color: var(--current-color);
+    background-color: var(--current-color) !important;
 }
 
 .black {
