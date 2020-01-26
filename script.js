@@ -8,11 +8,11 @@ document.body.onmouseup = (() => isMouseDown = false);
 */
 
 // Size of the draw window, must be a multiple of pixelHeight
-const drawHeight = 512;
+const drawHeight = 1024;
 const drawWidth = drawHeight;
 
 // Size of each pixel the user draws
-const pixelHeight = 16;
+const pixelHeight = 64;
 const pixelWidth = pixelHeight;
 
 const gridHeight = drawHeight/pixelHeight;
@@ -22,8 +22,8 @@ const draw = document.querySelector(".draw");
 let numberOfPixels = gridHeight*gridWidth;
 
 function initializeDrawArea() {
-    draw.style.width = drawWidth+"px";
-    draw.style.height = drawHeight+"px";
+    document.documentElement.style.setProperty('--draw-width', drawWidth);
+    document.documentElement.style.setProperty('--draw-height', drawHeight);
 
     // setup grid
     for (i=0;i<gridWidth;i++){
@@ -72,7 +72,7 @@ colorPicker.addEventListener('change',() => {
 });
 
 // Zoom in and out on scroll wheel
-let scale = 1;
+let scale = 0.5;
 
 window.addEventListener('wheel', function(e){
     if (e.deltaY < 0) {
@@ -84,13 +84,13 @@ window.addEventListener('wheel', function(e){
 
 function zoom(direction){
     if (direction == "in") {
-        scale = scale + 0.1;    // Using a non-interger value here causes --very-- odd decimals.
+        scale = scale + 0.05;    // Using a non-interger value here causes --very-- odd decimals.
     } else if (direction == "out") {
-         scale = scale - 0.1;
+         scale = scale - 0.05;
     }
-    scale = Math.round((scale*10))/10; //round to a single decimal point.
-    if (scale < 0.2) {
-        scale = 0.2;
+    scale = Math.round((scale*100))/100; //round to a single decimal point.
+    if (scale < 0.1) {
+        scale = 0.1;
     }else if (scale > 3) {
         scale = 3;
     }
@@ -278,4 +278,5 @@ function applyColors() {
 }
 
 initializeDrawArea();
+scaleDraw();
 disableScroll();

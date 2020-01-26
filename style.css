@@ -4,6 +4,9 @@
     --main-color: rgb(239, 131, 84);
 
     --current-color: #000000;
+    
+    --draw-width: 1024px;
+    --draw-height: 1024px;
 }
 
 @font-face {
@@ -65,8 +68,8 @@ h3 {
 
 .draw {
     top:0px;
-    width: 512px;
-    height: 512px;
+    width: var(--draw-width);
+    height: var(--draw-height);
     margin: 0 auto;
     display: grid;
     grid-template-columns: auto;
