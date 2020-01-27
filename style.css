@@ -99,7 +99,7 @@ canvas {
 .view-container {
     border: 5px solid var(--main-color);
     line-height: 0;
-    background-color: #ebecb3;
+    background-color: #ffffff;
     width: 0; /* Set by script.js */
     height: 0; /* Set by script.js */
     margin: 0 auto;
@@ -143,7 +143,6 @@ canvas {
 /* ---DRAW AREA IS HERE -- */
 
 .draw {
-    top:0px;
     width: var(--draw-width);
     height: var(--draw-height);
     margin: 0 auto;
@@ -151,13 +150,22 @@ canvas {
     grid-template-columns: auto;
     grid-template-rows: auto;
     overflow: auto;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .draw-pixel {
     box-sizing: border-box;
     border-top: 1px dashed rgba(126, 125, 124, 0.4);
     border-right: 1px dashed rgba(126, 125, 124, 0.4);
-    background-color: #ebecb3;
+    background-color: white;
+}
+
+.draw-pixel-trans0 {
+    background-color: rgb(238, 238, 238);
+}
+
+.draw-pixel-trans1 {
+    background-color: rgb(204, 204, 204);
 }
 
 .draw-pixel:hover {

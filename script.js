@@ -48,33 +48,49 @@ const pixelWidth = pixelHeight;
 const gridHeight = drawHeight/pixelHeight;
 const gridWidth = gridHeight;
 
-const draw = document.querySelector(".draw");
+const draw = document.querySelector('.draw');
 let numberOfPixels = gridHeight*gridWidth;
 
-const drawContainer = document.querySelector(".draw-container");
-const drawArea = document.querySelector(".draw");
+const drawContainer = document.querySelector('.draw-container');
+const drawArea = document.querySelector('.draw');
 
 function initializeDrawArea() {
     document.documentElement.style.setProperty('--draw-width', drawWidth);
     document.documentElement.style.setProperty('--draw-height', drawHeight);
 
-    // setup grid
+    // setup grid //
     for (i=0;i<gridWidth;i++){
-        draw.style.gridTemplateColumns = draw.style.gridTemplateColumns+" "+pixelWidth+"px";
-        draw.style.gridTemplateRows = draw.style.gridTemplateRows+" "+pixelHeight+"px";
+        draw.style.gridTemplateColumns = draw.style.gridTemplateColumns+' '+pixelWidth+'px';
+        draw.style.gridTemplateRows = draw.style.gridTemplateRows+' '+pixelHeight+'px';
     }
 
-    // fill grid with pixels
-    for (i=0;i<numberOfPixels;i++){
-        const blankPixel = document.createElement("div");
-        blankPixel.classList.add("draw-pixel");
-        blankPixel.setAttribute("id",i)
+    // fill grid with pixels //
+    let currentRow = 0; // Give each pixel some coodinates
+    let currentCol = 0;
+    for (i=0;i<numberOfPixels;i++) {
+        const blankPixel = document.createElement('div');
+        blankPixel.classList.add('draw-pixel');
+        blankPixel.setAttribute('id',i)
+        blankPixel.setAttribute('data-x', currentCol);
+        blankPixel.setAttribute('data-y', currentRow);
+        // Make the 'Transparency Grid' on new image
+        if (checkIfEven(currentRow + currentCol)) { // Even coordinates are white, odd are grey.
+            blankPixel.classList.add('draw-pixel-trans0');
+        } else {
+            blankPixel.classList.add('draw-pixel-trans1');
+        }
+
+        currentCol++;
+        if (currentCol > gridWidth-1) {
+           currentRow ++;
+           currentCol = 0;
+        }
+
         draw.appendChild(blankPixel);
 
         // Mouse move and click listeners 
         document.getElementById(i).addEventListener('click', clickOnPixel);
         document.getElementById(i).addEventListener('mousemove', dragOnPixel);
-
     }
 }
 
@@ -102,7 +118,7 @@ function alterPixel(e) {
 
 // changing the color
 let currentColor = '#000000';
-const colorPicker = document.querySelector("#color-picker");
+const colorPicker = document.querySelector('#color-picker');
 colorPicker.addEventListener('change',() => {
     currentColor = colorPicker.value
     document.documentElement.style.setProperty('--current-color', currentColor);
@@ -113,16 +129,16 @@ let scale = 0.5;
 
 window.addEventListener('wheel', function(e){
     if (e.deltaY < 0) {
-        zoom("in");
+        zoom('in');
     } else if (e.deltaY >0) {
-        zoom("out");
+        zoom('out');
     }
 });
 
 function zoom(direction){
-    if (direction == "in") {
+    if (direction == 'in') {
         scale = scale + 0.05;    // Using a non-interger value here causes --very-- odd decimals.
-    } else if (direction == "out") {
+    } else if (direction == 'out') {
          scale = scale - 0.05;
     }
     scale = Math.round((scale*100))/100; // round to two decimal points. Drops the weird decimals from above.
@@ -139,12 +155,12 @@ function scaleDraw() {
     draw.style.gridTemplateColumns = '';
     draw.style.gridTemplateRows = '';
 
-    draw.style.width = drawWidth*scale+"px";
-    draw.style.height = drawHeight*scale+"px";
+    draw.style.width = drawWidth*scale+'px';
+    draw.style.height = drawHeight*scale+'px';
 
     for (i=0;i<gridWidth;i++){
-        draw.style.gridTemplateColumns = draw.style.gridTemplateColumns+" "+pixelWidth*scale+"px";
-        draw.style.gridTemplateRows = draw.style.gridTemplateRows+" "+pixelHeight*scale+"px";
+        draw.style.gridTemplateColumns = draw.style.gridTemplateColumns+' '+pixelWidth*scale+'px';
+        draw.style.gridTemplateRows = draw.style.gridTemplateRows+' '+pixelHeight*scale+'px';
     }
 
     // scale the draw-container to match the szie of the draw area. Causes the div to push larger and allow for scrolling.
@@ -185,14 +201,14 @@ function disableScroll() {
 -- Preview window on the right --
 */
 
-const canvas = document.getElementById("preview");
-const ctx = canvas.getContext("2d");
-const viewContainer = document.getElementById("view-container");
+const canvas = document.getElementById('preview');
+const ctx = canvas.getContext('2d');
+const viewContainer = document.getElementById('view-container');
 
 canvas.width = gridWidth;   // preview size is the grid converted to actual pixels
 canvas.height = gridHeight;
-viewContainer.style.width = gridWidth+"px";
-viewContainer.style.height = gridHeight+"px";
+viewContainer.style.width = gridWidth+'px';
+viewContainer.style.height = gridHeight+'px';
 
 function updatePreview() {
     let pixelID = 0;
@@ -201,7 +217,7 @@ function updatePreview() {
 
     for (i=0;i<gridHeight;i++) {
         for (o=0;o<gridWidth;o++) {
-            if (document.getElementById(pixelID).getAttribute("data-selected")){
+            if (document.getElementById(pixelID).getAttribute('data-selected')){
                 const pixelColor = hexColorToRGB(document.getElementById(pixelID).getAttribute('data-color'));
                 imgData.data[0] = pixelColor[0];
                 imgData.data[1] = pixelColor[1];
@@ -224,34 +240,31 @@ function updatePreview() {
 /* -- Preview window scale-- */
 let previewScale = 1;
 // Listeners of the previewScale buttons
-document.getElementById("previewScale1").addEventListener('click', setPreviewScale);
-document.getElementById("previewScale2").addEventListener('click', setPreviewScale);
-document.getElementById("previewScale4").addEventListener('click', setPreviewScale);
+document.getElementById('previewScale1').addEventListener('click', setPreviewScale);
+document.getElementById('previewScale2').addEventListener('click', setPreviewScale);
+document.getElementById('previewScale4').addEventListener('click', setPreviewScale);
 
 //set the previewScale and make changes css styling to prevent wrecking the page
 function setPreviewScale(e) {  
-
-    console.log(e);
-
     const newpreviewScale = e.target.id;
-    if (newpreviewScale === "previewScale4"){
+    if (newpreviewScale === 'previewScale4'){
         previewScale = 4;
         canvas.style.scale = previewScale;
         canvas.style.transform = `translateY(${((gridWidth*previewScale)-gridWidth)/(previewScale*2)}px)`;
-        viewContainer.style.width = (gridWidth*previewScale)+"px";
-        viewContainer.style.height = (gridHeight*previewScale)+"px";
-    }else if (newpreviewScale === "previewScale2"){
+        viewContainer.style.width = (gridWidth*previewScale)+'px';
+        viewContainer.style.height = (gridHeight*previewScale)+'px';
+    }else if (newpreviewScale === 'previewScale2'){
         previewScale = 2;
         canvas.style.scale = previewScale;
         canvas.style.transform = `translateY(${((gridWidth*previewScale)-gridWidth)/(previewScale*2)}px)`;
-        viewContainer.style.width = (gridWidth*previewScale)+"px";
-        viewContainer.style.height = (gridHeight*previewScale)+"px";
-    }else if (newpreviewScale === "previewScale1") {
+        viewContainer.style.width = (gridWidth*previewScale)+'px';
+        viewContainer.style.height = (gridHeight*previewScale)+'px';
+    }else if (newpreviewScale === 'previewScale1') {
         previewScale = 1;
         canvas.style.scale = previewScale;
-        canvas.style.transform = "translateY(0)"
-        viewContainer.style.width = gridWidth+"px";
-        viewContainer.style.height = gridHeight+"px";
+        canvas.style.transform = 'translateY(0)'
+        viewContainer.style.width = gridWidth+'px';
+        viewContainer.style.height = gridHeight+'px';
     }
 }
 
@@ -260,12 +273,12 @@ function setPreviewScale(e) {
 -- Save link on the right --
 */
 
-const saveButton = document.getElementById("save");
+const saveButton = document.getElementById('save');
 saveButton.addEventListener('click',prepareImage);
 
 function prepareImage() {
-    image = canvas.toDataURL("image/svg");
-    saveButton.setAttribute("href",image);
+    image = canvas.toDataURL('image/svg');
+    saveButton.setAttribute('href',image);
     click.saveButton;
 }
 
@@ -287,7 +300,7 @@ function setBaseColor() {
 
 function hexColorToRGB(hex) { //takes hex color (i.e. #efefef) and converts to rgb
     hex = hex.slice(1,hex.length);
-    const rgb = [parseInt(Number("0x"+hex.slice(0,2)),10), parseInt(Number("0x"+hex.slice(02,4)),10), parseInt(Number("0x"+hex.slice(4,6)),10)];
+    const rgb = [parseInt(Number('0x'+hex.slice(0,2)),10), parseInt(Number('0x'+hex.slice(02,4)),10), parseInt(Number('0x'+hex.slice(4,6)),10)];
     return rgb;
 }
 
@@ -313,10 +326,22 @@ function solveMainColor(base){
 
 // Push color changes to css
 function applyColors() {
-    document.documentElement.style.setProperty('--base-color', "rgb("+baseColor[0]+","+baseColor[1]+","+baseColor[2]+")");
-    document.documentElement.style.setProperty('--accent-color', "rgb("+accentColor[0]+","+accentColor[1]+","+accentColor[2]+")");
-    document.documentElement.style.setProperty('--main-color', "rgb("+mainColor[0]+","+mainColor[1]+","+mainColor[2]+")");
+    document.documentElement.style.setProperty('--base-color', 'rgb('+baseColor[0]+','+baseColor[1]+','+baseColor[2]+')');
+    document.documentElement.style.setProperty('--accent-color', 'rgb('+accentColor[0]+','+accentColor[1]+','+accentColor[2]+')');
+    document.documentElement.style.setProperty('--main-color', 'rgb('+mainColor[0]+','+mainColor[1]+','+mainColor[2]+')');
 }
+
+/*
+-- Helpers --
+*/
+
+function checkIfEven(number) {
+    return (number%2 == 0) ? true : false;
+}
+
+/*
+-- Initialize --
+*/
 
 initializeDrawArea();
 scaleDraw();
