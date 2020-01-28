@@ -13,6 +13,7 @@ Near future additions:
 - Toggle grid overlay
 - User set the canvas size.
 - More practical preview window sizing.
+- User configurable color pallette.
 
 Long-Term additions
 - Layers
