@@ -10,6 +10,7 @@ What Works:
 
 Near future additions:
 - Pan the image by holding control while zoomed in.
+- Toggle grid overlay
 - User set the canvas size.
 - More practical preview window sizing.
 
