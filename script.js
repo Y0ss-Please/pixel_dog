@@ -137,7 +137,7 @@ window.addEventListener('wheel', function(e){
 
 function zoom(direction){
     if (direction == 'in') {
-        scale = scale + 0.05;    // Using a non-interger value here causes --very-- odd decimals.
+        scale = scale + 0.05;    // Using a non-integer value here causes --very-- odd decimals.
     } else if (direction == 'out') {
          scale = scale - 0.05;
     }
@@ -241,25 +241,25 @@ function updatePreview() {
 let previewScale = 1;
 // Listeners of the previewScale buttons
 document.getElementById('previewScale1').addEventListener('click', setPreviewScale);
-document.getElementById('previewScale2').addEventListener('click', setPreviewScale);
 document.getElementById('previewScale4').addEventListener('click', setPreviewScale);
+document.getElementById('previewScale8').addEventListener('click', setPreviewScale);
 
 //set the previewScale and make changes css styling to prevent wrecking the page
 function setPreviewScale(e) {  
-    const newpreviewScale = e.target.id;
-    if (newpreviewScale === 'previewScale4'){
+    const newPreviewScale = e.target.id;
+    if (newPreviewScale === 'previewScale8'){
+        previewScale = 8;
+        canvas.style.scale = previewScale;
+        canvas.style.transform = `translateY(${((gridWidth*previewScale)-gridWidth)/(previewScale*2)}px)`;
+        viewContainer.style.width = (gridWidth*previewScale)+'px';
+        viewContainer.style.height = (gridHeight*previewScale)+'px';
+    }else if (newPreviewScale === 'previewScale4'){
         previewScale = 4;
         canvas.style.scale = previewScale;
         canvas.style.transform = `translateY(${((gridWidth*previewScale)-gridWidth)/(previewScale*2)}px)`;
         viewContainer.style.width = (gridWidth*previewScale)+'px';
         viewContainer.style.height = (gridHeight*previewScale)+'px';
-    }else if (newpreviewScale === 'previewScale2'){
-        previewScale = 2;
-        canvas.style.scale = previewScale;
-        canvas.style.transform = `translateY(${((gridWidth*previewScale)-gridWidth)/(previewScale*2)}px)`;
-        viewContainer.style.width = (gridWidth*previewScale)+'px';
-        viewContainer.style.height = (gridHeight*previewScale)+'px';
-    }else if (newpreviewScale === 'previewScale1') {
+    }else if (newPreviewScale === 'previewScale1') {
         previewScale = 1;
         canvas.style.scale = previewScale;
         canvas.style.transform = 'translateY(0)'
@@ -346,3 +346,5 @@ function checkIfEven(number) {
 initializeDrawArea();
 scaleDraw();
 disableScroll();
+document.getElementById('previewScale4').click();
+document.getElementById('color-picker').value = '#000000';

@@ -1,7 +1,7 @@
 :root {
-    --base-color: rgb(15, 113, 115);
-    --accent-color: rgb(238, 75, 106);
-    --main-color: rgb(239, 131, 84);
+    --base-color: #000000;
+    --accent-color: #c44e95;
+    --main-color: #c4e6ca;
 
     --current-color: #000000;
     
@@ -44,7 +44,7 @@ h1 {
     font-family: 'VCR', sans-serif;
     font-size: 35px;
     line-height: 0.8;
-    margin: 0;
+    margin: 3vh 0 3vh 0;
 }
 
 h2 {
@@ -58,7 +58,7 @@ h3 {
     font-family: 'VCR', sans-serif;
     font-size: 15px;
     line-height: 0.8;
-    margin: 0;
+    margin: 2vh 0 0 0;
 }
 
 canvas {
@@ -81,15 +81,25 @@ canvas {
     width:15vw;
 }
 
+#color-picker {
+    border: none;
+    margin: 1vh 0 3vh 0;
+    padding: 0;
+    height: 4em;
+    width: 4em;
+}
+
 .pink-container {
     background-color: var(--accent-color);
     color: var(--base-color);
     text-align: center;
+    padding: 2vh;
 }
 .blue-container {
     background-color: var(--base-color);
     color: var(--main-color);
     text-align: center;
+    padding: 2vh;
 }
 
 .preview-container {
